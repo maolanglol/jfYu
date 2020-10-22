@@ -155,30 +155,30 @@ namespace jfYu.Core.Data
             return await Slave.Set<T>().Where(predicate).SingleOrDefaultAsync();
         }
 
-        public virtual List<T> GetList(Expression<Func<T, bool>> predicate = null)
+        public virtual IQueryable<T> GetList(Expression<Func<T, bool>> predicate = null)
         {
             predicate ??= ExprTrue;
-            return Slave.Set<T>().Where(predicate).ToList();
+            return Slave.Set<T>().Where(predicate).AsQueryable();
         }
-        public virtual async Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate = null)
+        public virtual async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> predicate = null)
         {
             predicate ??= ExprTrue;
-            return await Slave.Set<T>().Where(predicate).ToListAsync();
+            return await Task.Run(() => Slave.Set<T>().Where(predicate).AsQueryable());
         }
-        public virtual List<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
+        public virtual IQueryable<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
         {
             predicate ??= ExprTrue;
             if (scalar == null)
-                return new List<T1>();
-            return Slave.Set<T>().Where(predicate).Select(scalar).ToList();
+                return new List<T1>().AsQueryable();
+            return Slave.Set<T>().Where(predicate).Select(scalar).AsQueryable();
         }
 
-        public virtual async Task<List<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
+        public virtual async Task<IQueryable<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
         {
             predicate ??= ExprTrue;
             if (scalar == null)
-                return new List<T1>();
-            return await Slave.Set<T>().Where(predicate).Select(scalar).ToListAsync();
+                return new List<T1>().AsQueryable();
+            return await Task.Run(() => Slave.Set<T>().Where(predicate).Select(scalar).AsQueryable());
         }
 
     }

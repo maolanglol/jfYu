@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -69,14 +70,14 @@ namespace jfYu.Core.Data
         /// </summary>
         /// <param name="predicate">筛选</param>
         /// <returns>数据集</returns>
-        List<T> GetList(Expression<Func<T, bool>> predicate = null);
+        IQueryable<T> GetList(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 获取所有数据
         /// </summary>
         /// <param name="predicate">筛选</param>
         /// <returns>数据集</returns>
-        Task<List<T>> GetListAsync(Expression<Func<T, bool>> predicate = null);
+        Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> predicate = null);
 
 
         /// <summary>
@@ -86,7 +87,7 @@ namespace jfYu.Core.Data
         /// <param name="predicate">筛选</param>
         /// <param name="scalar">部分字段，例如:q=>new {id=q.id,name=q.name}、q=>new ClassA{id=q.id,name=q.name}</param>
         /// <returns>数据集</returns>
-        List<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
+        IQueryable<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
 
         /// <summary>
         /// 获取部分字段的所有数据
@@ -95,7 +96,7 @@ namespace jfYu.Core.Data
         /// <param name="predicate">筛选</param>
         /// <param name="scalar">部分字段，例如:q=>new {id=q.id,name=q.name}、q=>new ClassA{id=q.id,name=q.name}</param>
         /// <returns>数据集</returns>
-        Task<List<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
+        Task<IQueryable<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
         /// <summary>
         /// 软删除
         /// </summary>
