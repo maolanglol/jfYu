@@ -1,8 +1,7 @@
 using Autofac;
 using jfYu.Core.Common.Configurations;
-using jfYu.Core.Common.Pagination;
+using jfYu.Core.Data;
 using jfYu.Core.MongoDB;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using Xunit;
 
 namespace xUnitTestCore.MongoDBCore
 {
-    public class Data : BaseEntity
+    public class Data : MongoEntity
     {
         public string name;
         public string age;

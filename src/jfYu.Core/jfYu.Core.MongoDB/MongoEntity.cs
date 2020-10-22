@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace jfYu.Core.MongoDB
 {
-    public abstract class BaseEntity
+    public abstract class MongoEntity
     {
         /// <summary>
         /// MongoDB编号

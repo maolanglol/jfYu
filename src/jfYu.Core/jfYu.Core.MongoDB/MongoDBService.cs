@@ -56,7 +56,7 @@ namespace jfYu.Core.MongoDB
         /// 插入指定对象到数据库中
         /// </summary>
         /// <param name="entity">指定的对象</param>
-        public T Insert<T>(T entity) where T : BaseEntity
+        public T Insert<T>(T entity) where T : MongoEntity
         {
 
             var collection = db.GetCollection<T>(typeof(T).Name);
@@ -68,7 +68,7 @@ namespace jfYu.Core.MongoDB
             collection.InsertOne(entity);
             return QueryOne<T>(q => q.Id == flag);
         }
-        public async Task InsertAsync<T>(T entity) where T : BaseEntity
+        public async Task InsertAsync<T>(T entity) where T : MongoEntity
         {
 
             var collection = db.GetCollection<T>(typeof(T).Name);
@@ -79,7 +79,7 @@ namespace jfYu.Core.MongoDB
             entity.UpdateTime = DateTime.Now;
             await collection.InsertOneAsync(entity);
         }
-        public void InsertBatch<T>(IEnumerable<T> list) where T : BaseEntity
+        public void InsertBatch<T>(IEnumerable<T> list) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             list.ToList().ForEach(entity =>
@@ -92,7 +92,7 @@ namespace jfYu.Core.MongoDB
             });
             collection.InsertMany(list);
         }
-        public async Task InsertBatchAsync<T>(IEnumerable<T> list) where T : BaseEntity
+        public async Task InsertBatchAsync<T>(IEnumerable<T> list) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             list.ToList().ForEach(entity =>
@@ -105,7 +105,7 @@ namespace jfYu.Core.MongoDB
             });
             await collection.InsertManyAsync(list);
         }
-        public void Modify<T>(string id, string field, string value) where T : BaseEntity
+        public void Modify<T>(string id, string field, string value) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             ObjectId.TryParse(id, out ObjectId Id);
@@ -114,7 +114,7 @@ namespace jfYu.Core.MongoDB
             collection.UpdateOne(filter, updated);
 
         }
-        public async void ModifyAsync<T>(string id, string field, string value) where T : BaseEntity
+        public async void ModifyAsync<T>(string id, string field, string value) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             ObjectId.TryParse(id, out ObjectId Id);
@@ -122,7 +122,7 @@ namespace jfYu.Core.MongoDB
             var updated = Builders<T>.Update.Set(field, value).Set("UpdateTime", DateTime.Now);
             await collection.UpdateOneAsync(filter, updated);
         }
-        public bool Update<T>(T entity) where T : BaseEntity
+        public bool Update<T>(T entity) where T : MongoEntity
         {
             bool result = false;
             var collection = db.GetCollection<T>(typeof(T).Name);
@@ -134,7 +134,7 @@ namespace jfYu.Core.MongoDB
             }
             return result;
         }
-        public async Task<bool> UpdateAsync<T>(T entity) where T : BaseEntity
+        public async Task<bool> UpdateAsync<T>(T entity) where T : MongoEntity
         {
 
             bool result = false;
@@ -148,7 +148,7 @@ namespace jfYu.Core.MongoDB
             return result;
         }
 
-        public bool SoftDelete<T>(string id) where T : BaseEntity
+        public bool SoftDelete<T>(string id) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             var result = collection.Find(q => q.Id == ObjectId.Parse(id)).SingleOrDefault();
@@ -157,7 +157,7 @@ namespace jfYu.Core.MongoDB
             result.State = 0;
             return Update(result);
         }
-        public async Task<bool> SoftDeleteAsync<T>(string id) where T : BaseEntity
+        public async Task<bool> SoftDeleteAsync<T>(string id) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             var result =await collection.Find(q => q.Id == ObjectId.Parse(id)).SingleOrDefaultAsync();
@@ -167,36 +167,36 @@ namespace jfYu.Core.MongoDB
             return await UpdateAsync(result);
         }
 
-        public bool Delete<T>(string id) where T : BaseEntity
+        public bool Delete<T>(string id) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             var result = collection.DeleteOne(q => q.Id == ObjectId.Parse(id));
             return result != null && result.DeletedCount > 0;
         }
-        public async Task<bool> DeleteAsync<T>(string id) where T : BaseEntity
+        public async Task<bool> DeleteAsync<T>(string id) where T : MongoEntity
         {
             var collection = db.GetCollection<T>(typeof(T).Name);
             var result = await collection.DeleteOneAsync(q => q.Id == ObjectId.Parse(id));
             return result != null && result.DeletedCount > 0;
         }
-        public T QueryOne<T>(Expression<Func<T, bool>> criteria) where T : BaseEntity
+        public T QueryOne<T>(Expression<Func<T, bool>> criteria) where T : MongoEntity
         {
             criteria ??= q => true;
             var collection = db.GetCollection<T>(typeof(T).Name);
             return collection.Find(criteria).ToList().FirstOrDefault();
         }
-        public async Task<T> QueryOneAsync<T>(Expression<Func<T, bool>> criteria) where T : BaseEntity
+        public async Task<T> QueryOneAsync<T>(Expression<Func<T, bool>> criteria) where T : MongoEntity
         {
             criteria ??= q => true;
             var collection = db.GetCollection<T>(typeof(T).Name);
             return await collection.Find(criteria).FirstOrDefaultAsync();
         }
-        public IQueryable<T> QueryCollection<T>(Expression<Func<T, bool>> criteria = null) where T : BaseEntity
+        public IQueryable<T> QueryCollection<T>(Expression<Func<T, bool>> criteria = null) where T : MongoEntity
         {
             criteria ??= q => true;
             return db.GetCollection<T>(typeof(T).Name).AsQueryable().Where(criteria).AsQueryable();
         }
-        public async Task<IQueryable<T>> QueryCollectionAsync<T>(Expression<Func<T, bool>> criteria = null) where T : BaseEntity
+        public async Task<IQueryable<T>> QueryCollectionAsync<T>(Expression<Func<T, bool>> criteria = null) where T : MongoEntity
         {
             criteria ??= q => true;
             return await Task.Run(() => db.GetCollection<T>(typeof(T).Name).AsQueryable().Where(criteria).AsQueryable());

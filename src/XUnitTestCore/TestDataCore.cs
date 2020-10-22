@@ -9,7 +9,7 @@ using NPOI.HSSF.Record.Chart;
 using System.Linq;
 using Xunit;
 
-namespace xUnitTestCore
+namespace xUnitTestCore.Data
 {
 
     /// <summary>
