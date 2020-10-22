@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1;net461</TargetFrameworks>
+    <LangVersion>8.0</LangVersion>
+    <Version>1.1.3</Version>
+    <Authors>jfwang</Authors>
+    <Description>Word Helper</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.9.2" />
+    <PackageReference Include="NPOI" Version="2.4.1" />
+  </ItemGroup>
+
+</Project>

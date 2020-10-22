@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+	  <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+	  <LangVersion>8.0</LangVersion>
+	  <Version>1.1.5</Version>
+	  <Authors>jfwang</Authors>
+	  <Description>Separation of reading and writing</Description>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  
+	  
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
+    <PackageReference Include="Mysql.Data.EntityFrameworkCore" Version="8.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\jfYu.Core.Common\jfYu.Core.Common.csproj" />
+  </ItemGroup>
+
+</Project>
