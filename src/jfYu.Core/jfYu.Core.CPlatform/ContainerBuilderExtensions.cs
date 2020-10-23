@@ -13,22 +13,19 @@ namespace jfYu.Core.CPlatform
         /// <param name="services"></param>
         public static void AddCPlatform(this ContainerBuilder services)
         {
-            //获取所有Service并使用属性注入
-            var baseServiceType = typeof(IServiceKey);
+            //获取所有控制器类型并使用属性注入
+            var dataAccess = Assembly.GetEntryAssembly();
 
-            services.RegisterAssemblyTypes(baseServiceType.Assembly)
-                .Where(t => baseServiceType.IsAssignableFrom(t) && t != baseServiceType)
+            //获取所有Service并使用属性注入       
+            services.RegisterAssemblyTypes(dataAccess.GetReferencedAssemblies().Select(q => Assembly.Load(q)).ToArray())
+                .Where(t => t.GetInterfaces().Contains(typeof(IServiceKey)))
                 .AsImplementedInterfaces()
                 .PropertiesAutowired();
 
-            services.RegisterAssemblyTypes(baseServiceType.Assembly).PropertiesAutowired();
+            services.RegisterAssemblyTypes(typeof(IServiceKey).Assembly).PropertiesAutowired();
 
-            //获取所有控制器类型并使用属性注入
-            var dataAccess = Assembly.GetExecutingAssembly();
-
-            var controllerBaseType = typeof(IBaseController);
-            services.RegisterAssemblyTypes(dataAccess)
-                .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
+            services.RegisterAssemblyTypes(dataAccess.GetReferencedAssemblies().Select(q => Assembly.Load(q)).ToArray())
+                .Where(t => t.GetInterfaces().Contains(typeof(IBaseController)))
                 .PropertiesAutowired();
         }
     }

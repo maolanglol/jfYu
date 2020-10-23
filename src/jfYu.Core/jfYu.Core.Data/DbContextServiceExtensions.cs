@@ -9,17 +9,17 @@ namespace jfYu.Core.Data
         /// <summary>
         /// IOC注册
         /// </summary>  
-        public static void AddDbContextService<T>(this ContainerBuilder services, Func<DbContextOptions<T>, T> _DbContext) where T : DbContext
+        public static void AddDbContextService<T>(this ContainerBuilder services) where T : DbContext
         {
-            services.Register(c => new DbContextService<T>(_DbContext)).AsSelf().InstancePerLifetimeScope();
+            services.Register(q => new DbContextService<T>()).AsImplementedInterfaces().InstancePerLifetimeScope();          
         }
 
         /// <summary>
         /// IOC注册
         /// </summary>   
-        public static void AddDbContextService<T>(this ContainerBuilder services, DatabaseConfiguration databaseConfiguration, Func<DbContextOptions<T>, T> _DbContext) where T : DbContext
+        public static void AddDbContextService<T>(this ContainerBuilder services, DatabaseConfiguration databaseConfiguration) where T : DbContext
         {
-            services.Register(c => new DbContextService<T>(databaseConfiguration, _DbContext)).AsSelf().InstancePerLifetimeScope();
+            services.Register(q => new DbContextService<T>(databaseConfiguration)).AsImplementedInterfaces().InstancePerLifetimeScope();
         }
     }
 }

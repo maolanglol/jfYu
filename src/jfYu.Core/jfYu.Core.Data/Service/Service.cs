@@ -7,18 +7,19 @@ using System.Threading.Tasks;
 
 namespace jfYu.Core.Data
 {
-    public class Service<T> : IService<T> where T : BaseEntity
+    public class Service<T, Q> : IService<T> where T : BaseEntity
+        where Q : DbContext
     {
 
         public Expression<Func<T, bool>> ExprTrue = q => true;
 
-        public DbContext Master { get; }
+        public Q Master { get; }
 
-        public DbContext Slave { get; }
+        public Q Slave { get; }
 
-        public List<DbContext> Slaves { get; }
+        public List<Q> Slaves { get; }
 
-        public Service(DbContextService<DbContext> contextService)
+        public Service(IDbContextService<Q> contextService)
         {
 
             Master = contextService.Master;

@@ -6,12 +6,8 @@ using System.Collections.Generic;
 namespace jfYu.Core.Data
 {
 
-    public partial class DbContextService<T> where T : DbContext
+    public class DbContextService<T> : IDbContextService<T> where T : DbContext
     {
-        /// <summary>
-        /// dbcontext
-        /// </summary>
-        private Func<DbContextOptions<T>, T> funcDbContext;
 
         /// <summary>
         /// 主从数据库配置
@@ -33,9 +29,8 @@ namespace jfYu.Core.Data
         /// </summary>
         public List<T> Slaves { get; }
 
-        public DbContextService(Func<DbContextOptions<T>, T> _DbContext)
+        public DbContextService()
         {
-            funcDbContext = _DbContext;
             try
             {
                 Config = AppConfig.GetSection("ConnectionStrings").GetBindData<DatabaseConfiguration>();
@@ -61,10 +56,9 @@ namespace jfYu.Core.Data
 
         }
 
-        public DbContextService(DatabaseConfiguration _config, Func<DbContextOptions<T>, T> _DbContext)
+        public DbContextService(DatabaseConfiguration _config)
         {
             Config = _config;
-            funcDbContext = _DbContext;
             try
             {
                 //主数据库
@@ -93,7 +87,7 @@ namespace jfYu.Core.Data
                 optionsBuilder.UseLazyLoadingProxies().UseSqlServer(Config.MasterConnectionString);
             else if (Config.DatabaseType.Equals(DatabaseType.Mysql))
                 optionsBuilder.UseLazyLoadingProxies().UseMySQL(Config.MasterConnectionString);
-            return funcDbContext(optionsBuilder.Options);
+            return (T)Activator.CreateInstance(typeof(T), optionsBuilder.Options);
         }
 
         /// <summary>
@@ -119,7 +113,7 @@ namespace jfYu.Core.Data
                 else if (Config.DatabaseType.Equals(DatabaseType.Mysql))
                     optionsBuilder.UseLazyLoadingProxies().UseMySQL(SlaveConnectionString);
             }
-            return funcDbContext(optionsBuilder.Options);
+            return (T)Activator.CreateInstance(typeof(T), optionsBuilder.Options);
         }
 
         /// <summary>
@@ -129,7 +123,7 @@ namespace jfYu.Core.Data
         /// <returns></returns>
         private List<T> GetSlaves()
         {
-            List<T> salves = new List<T>();
+            var salves = new List<T>();
             var optionsBuilder = new DbContextOptionsBuilder<T>();
 
             int slaveCount = Config.SlaveConnectionStrings.Count;
@@ -147,7 +141,8 @@ namespace jfYu.Core.Data
                     else if (Config.DatabaseType.Equals(DatabaseType.Mysql))
                         optionsBuilder.UseLazyLoadingProxies().UseMySQL(SlaveConnectionString);
                 }
-                salves.Add(funcDbContext(optionsBuilder.Options));
+
+                salves.Add((T)Activator.CreateInstance(typeof(T), optionsBuilder.Options));
             }
             return salves;
         }
