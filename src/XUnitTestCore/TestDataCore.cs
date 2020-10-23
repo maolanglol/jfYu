@@ -22,7 +22,7 @@ namespace xUnitTestCore.Data
             var containerBuilder = new ContainerBuilder();
             var builder = new ConfigurationBuilder().AddConfigurationFile("SqlServer.json", optional: true, reloadOnChange: true);
             builder.Build();
-            containerBuilder.AddDbContextService<DataContext>(q => { return new DataContext(q); });
+            containerBuilder.AddDbContextService<DataContext>();
             var container = containerBuilder.Build();
             return container.Resolve<DbContextService<DataContext>>().Master;
         }
@@ -60,7 +60,7 @@ namespace xUnitTestCore.Data
             var containerBuilder = new ContainerBuilder();
             var builder = new ConfigurationBuilder().AddConfigurationFile("SqlServer.json", optional: true, reloadOnChange: true);
             builder.Build();
-            containerBuilder.AddDbContextService<DataContext>(q => { return new DataContext(q); });
+            containerBuilder.AddDbContextService<DataContext>();
             var container = containerBuilder.Build();
             var db = container.Resolve<DbContextService<DataContext>>();
 
