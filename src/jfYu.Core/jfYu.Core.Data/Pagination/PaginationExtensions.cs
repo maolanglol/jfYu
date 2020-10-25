@@ -8,7 +8,7 @@ namespace jfYu.Core.Data
     public static class PaginationExtensions
     {
 
-        public static async Task<PagedModel<T>> ToPagingAsync<T>(this IQueryable<T> source, QueryModel parm)
+        public static async Task<PagedModel<T>> ToPagingAsync<T, Q>(this IQueryable<T> source, Q parm) where Q : QueryModel
         {
 
             if (source == null)
@@ -25,7 +25,7 @@ namespace jfYu.Core.Data
             return new PagedModel<T>() { TotalPages = totalPages, Parm = parm, List = list, FirstDigit = startNum, LastDigit = endNum, TotalCount = totalCount };
 
         }
-        public static PagedModel<T> ToPaging<T>(this IQueryable<T> source, QueryModel parm)
+        public static PagedModel<T> ToPaging<T, Q>(this IQueryable<T> source, Q parm) where Q : QueryModel
         {
             if (source == null)
                 throw new ArgumentNullException();
