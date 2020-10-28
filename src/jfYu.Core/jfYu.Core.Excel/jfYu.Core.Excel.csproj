@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1;net461</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
-    <Version>1.1.8</Version>
+    <Version>1.1.9</Version>
     <Authors>jfwang</Authors>
     <Description>Excel Helper</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -13,7 +13,4 @@
     <PackageReference Include="NPOI" Version="2.5.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.6.0" />
   </ItemGroup>  
-  <ItemGroup>
-    <ProjectReference Include="..\jfYu.Core.Common\jfYu.Core.Common.csproj" />
-  </ItemGroup>
 </Project>

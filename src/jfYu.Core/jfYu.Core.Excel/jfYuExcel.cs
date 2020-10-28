@@ -1,5 +1,4 @@
-﻿using jfYu.Core.Common.Utilities;
-using NPOI.HSSF.UserModel;
+﻿using NPOI.HSSF.UserModel;
 using NPOI.SS.Formula.Eval;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.Streaming;
@@ -35,7 +34,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel<T>(List<T> source, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             //创建工作簿
             var workbook = Getworkbook<T>(filePath);
             //获取默认sheet
@@ -95,7 +98,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel<T>(DataTable source, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             //创建工作簿
             var workbook = Getworkbook<T>(filePath);
             //获取默认sheet
@@ -156,7 +163,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel(DataTable source, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             List<string> pops = new List<string>();
             //获取表头字段
             foreach (DataColumn item in source.Columns)
@@ -218,7 +229,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel<T>(IQueryable<T> souce, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             //创建工作簿
             var workbook = Getworkbook<T>(filePath);
             //获取默认sheet
@@ -277,7 +292,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel<T>(DbDataReader sqlDataReader, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             //创建工作簿
             var workbook = Getworkbook<T>(filePath);
             //获取默认sheet
@@ -338,7 +357,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToExcel(DbDataReader sqlDataReader, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".xlsx");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".xlsx";
+            else
+                filePath = filePath.Replace(ext, ".xlsx");
             //获取表头字段
             var pops = sqlDataReader.GetColumnSchema().Select(q => q.ColumnName).ToList();
             //创建工作簿
@@ -399,7 +422,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToCSV<T>(List<T> source, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".csv");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".csv";
+            else
+                filePath = filePath.Replace(ext, ".csv");
             FileStream fs = File.Create(filePath);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             StringBuilder str = new StringBuilder();
@@ -449,7 +476,11 @@ namespace jfYu.Core.Excel
         /// <param name="callback">进度回调</param>
         public void ToCSV(DataTable source, string filePath, Action<int> callback = null)
         {
-            filePath = filePath.Replace(Path.GetExtension(filePath), ".csv");
+            var ext = Path.GetExtension(filePath);
+            if (string.IsNullOrEmpty(ext))
+                filePath = filePath + ".csv";
+            else
+                filePath = filePath.Replace(ext, ".csv");
             FileStream fs = File.Create(filePath);
             StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
             StringBuilder str = new StringBuilder();
