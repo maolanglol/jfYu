@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace jfYu.Core.Data
 {
@@ -11,14 +12,14 @@ namespace jfYu.Core.Data
         /// <summary>
         /// 编号
         /// </summary>
-        [DisplayName("编号")]
+        [DisplayName("编号"), Key]
         public Guid Guid { get; set; }
 
         /// <summary>
         /// 0禁用 1正常
         /// </summary>
         [DisplayName("状态")]
-        public int State { get; set; }
+        public int State { get; set; } = 1;
 
         /// <summary>
         /// 创建时间
