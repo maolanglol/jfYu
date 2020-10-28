@@ -12,7 +12,7 @@ namespace jfYu.Core.Data
         /// 编号
         /// </summary>
         [DisplayName("编号")]
-        public int Id { get; set; }
+        public Guid Guid { get; set; }
 
         /// <summary>
         /// 0禁用 1正常

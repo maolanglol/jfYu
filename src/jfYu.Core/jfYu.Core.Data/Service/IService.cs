@@ -8,74 +8,180 @@ namespace jfYu.Core.Data
 {
     public interface IService<T> where T : BaseEntity
     {
+        #region 新增
         /// <summary>
         /// 新增
         /// </summary>
         /// <param name="entity">数据</param>
-        /// <returns>结果</returns>
+        /// <returns>是否成功</returns>
         bool Add(T entity);
         /// <summary>
         /// 新增
         /// </summary>
         /// <param name="entity">数据</param>
-        /// <returns>结果</returns>
+        /// <returns>是否成功</returns>
         Task<bool> AddAsync(T entity);
 
         /// <summary>
         /// 新增
         /// </summary>
-        /// <param name="entity">列表</param>
-        /// <returns>结果</returns>
+        /// <param name="list">列表</param>
+        /// <returns>是否成功</returns>
         bool AddRange(List<T> list);
         /// <summary>
         /// 新增
         /// </summary>
-        /// <param name="entity">列表</param>
-        /// <returns>结果</returns>
+        /// <param name="list">列表</param>
+        /// <returns>是否成功</returns>
         Task<bool> AddRangeAsync(List<T> list);
+        #endregion
+
+        #region 更新
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>是否成功</returns>
+        bool Update(T entity);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns>是否成功</returns>
+        Task<bool> UpdateAsync(T entity);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="list">实体列表</param>
+        /// <returns>是否成功</returns>
+        bool UpdateRange(List<T> list);
+
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="list">实体列表</param>
+        /// <returns>是否成功</returns>
+        Task<bool> UpdateRangeAsync(List<T> list);
+        #endregion
+
+        #region 删除
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        bool Remove(Guid guid);
+
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        bool Remove(string guid);
+
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        Task<bool> RemoveAsync(Guid guid);
+
+        /// <summary>
+        /// 软删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        Task<bool> RemoveAsync(string guid);
+
+        /// <summary>
+        /// 硬删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        bool HardRemove(Guid guid);
+
+        /// <summary>
+        /// 硬删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        bool HardRemove(string guid);
+
+        /// <summary>
+        /// 硬删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        Task<bool> HardRemoveAsync(Guid guid);
+
+        /// <summary>
+        /// 硬删除
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>是否成功</returns>
+        Task<bool> HardRemoveAsync(string guid);
+        #endregion
+
+        #region 获取单个
+        /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>数据</returns>
+        T GetById(Guid guid);
 
         /// <summary>
         /// 获取单个实体
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        T GetById(int id);
+        /// <param name="guid">guid</param>
+        /// <returns>数据</returns>
+        T GetById(string guid);
+
+        /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="guid">guid</param>
+        /// <returns>数据</returns>
+        Task<T> GetByIdAsync(Guid guid);
 
 
         /// <summary>
         /// 获取单个实体
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<T> GetByIdAsync(int id);
+        /// <param name="guid">guid</param>
+        /// <returns>数据</returns>
+        Task<T> GetByIdAsync(string guid);
 
         /// <summary>
         /// 获取单个实体
         /// </summary>
-        /// <param name="predicate">筛选</param>
-        /// <returns>单个实体</returns>
+        /// <param name="predicate">筛选条件</param>
+        /// <returns>数据</returns>
         T GetOne(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 获取单个实体
         /// </summary>
-        /// <param name="predicate">筛选</param>
-        /// <returns>单个实体</returns>
+        /// <param name="predicate">筛选条件</param>
+        /// <returns>数据</returns>
         Task<T> GetOneAsync(Expression<Func<T, bool>> predicate = null);
+        #endregion
 
-
-
+        #region 获取列表
         /// <summary>
         /// 获取所有数据
         /// </summary>
-        /// <param name="predicate">筛选</param>
+        /// <param name="predicate">筛选条件</param>
         /// <returns>数据集</returns>
         IQueryable<T> GetList(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 获取所有数据
         /// </summary>
-        /// <param name="predicate">筛选</param>
+        /// <param name="predicate">筛选条件</param>
         /// <returns>数据集</returns>
         Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> predicate = null);
 
@@ -84,7 +190,7 @@ namespace jfYu.Core.Data
         /// 获取部分字段的所有数据
         /// </summary>
         /// <typeparam name="T1">返回数据集类型，可以是动态类型，类</typeparam>
-        /// <param name="predicate">筛选</param>
+        /// <param name="predicate">筛选条件</param>
         /// <param name="scalar">部分字段，例如:q=>new {id=q.id,name=q.name}、q=>new ClassA{id=q.id,name=q.name}</param>
         /// <returns>数据集</returns>
         IQueryable<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
@@ -93,79 +199,41 @@ namespace jfYu.Core.Data
         /// 获取部分字段的所有数据
         /// </summary>
         /// <typeparam name="T1">返回数据集类型，可以是动态类型，类</typeparam>
-        /// <param name="predicate">筛选</param>
+        /// <param name="predicate">筛选条件</param>
         /// <param name="scalar">部分字段，例如:q=>new {id=q.id,name=q.name}、q=>new ClassA{id=q.id,name=q.name}</param>
         /// <returns>数据集</returns>
         Task<IQueryable<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null);
-        /// <summary>
-        /// 软删除
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        bool Remove(int id);
+        #endregion
 
-
+        #region 是否有数据
         /// <summary>
-        /// 软删除
+        /// 该id是否存在
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        Task<bool> RemoveAsync(int id);
-
-        /// <summary>
-        /// 硬删除
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        bool HardRemove(int id);
-        /// <summary>
-        /// 硬删除
-        /// </summary>
-        /// <param name="entity"></param>
-        /// <returns></returns>
-        Task<bool> HardRemoveAsync(int id);
+        /// <param name="guid">guid</param>
+        /// <returns>是否存在</returns>
+        bool IsExist(Guid guid);
 
         /// <summary>
         /// 该id是否存在
         /// </summary>
-        /// <param name="id">编号</param>
+        /// <param name="guid">guid</param>
         /// <returns>是否存在</returns>
-        bool IsExist(int id);
+        bool IsExist(string guid);
+
+
         /// <summary>
         /// 该id是否存在
         /// </summary>
-        /// <param name="id">编号</param>
+        /// <param name="guid">guid</param>
         /// <returns>是否存在</returns>
-        Task<bool> IsExistAsync(int id);
+        Task<bool> IsExistAsync(Guid guid);
 
         /// <summary>
-        /// 更新
+        /// 该id是否存在
         /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        bool Update(T entity);
-
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="entity">实体</param>
-        /// <returns></returns>
-        Task<bool> UpdateAsync(T entity);
-
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="list">实体列表</param>
-        /// <returns></returns>
-        bool UpdateRange(List<T> list);
-
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="list">实体列表</param>
-        /// <returns></returns>
-        Task<bool> UpdateRangeAsync(List<T> list);
-
-
+        /// <param name="guid">guid</param>
+        /// <returns>是否存在</returns>
+        Task<bool> IsExistAsync(string guid); 
+        #endregion
     }
 }
