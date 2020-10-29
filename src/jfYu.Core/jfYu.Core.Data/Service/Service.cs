@@ -82,44 +82,44 @@ namespace jfYu.Core.Data
             return (await Master.SaveChangesAsync()) > 0;
         }
 
-        public virtual bool Remove(Guid guid)
+        public virtual bool Remove(Guid id)
         {
-            if (IsExist(guid))
+            if (IsExist(id))
             {
-                var entity = Master.Find<T>(guid);
+                var entity = Master.Find<T>(id);
                 entity.UpdateTime = DateTime.Now;
                 entity.State = 1;
                 return Master.SaveChanges() > 0;
             }
             return false;
         }
-        public virtual bool Remove(string guid)
+        public virtual bool Remove(string id)
         {
-            if (IsExist(guid))
+            if (IsExist(id))
             {
-                var entity = Master.Find<T>(guid);
+                var entity = Master.Find<T>(id);
                 entity.UpdateTime = DateTime.Now;
                 entity.State = 1;
                 return Master.SaveChanges() > 0;
             }
             return false;
         }
-        public virtual async Task<bool> RemoveAsync(Guid guid)
+        public virtual async Task<bool> RemoveAsync(Guid id)
         {
-            if (await IsExistAsync(guid))
+            if (await IsExistAsync(id))
             {
-                var entity = await Master.FindAsync<T>(guid);
+                var entity = await Master.FindAsync<T>(id);
                 entity.UpdateTime = DateTime.Now;
                 entity.State = 1;
                 return (await Master.SaveChangesAsync()) > 0;
             }
             return false;
         }
-        public virtual async Task<bool> RemoveAsync(string guid)
+        public virtual async Task<bool> RemoveAsync(string id)
         {
-            if (await IsExistAsync(guid))
+            if (await IsExistAsync(id))
             {
-                var entity = await Master.FindAsync<T>(guid);
+                var entity = await Master.FindAsync<T>(id);
                 entity.UpdateTime = DateTime.Now;
                 entity.State = 1;
                 return (await Master.SaveChangesAsync()) > 0;
@@ -127,78 +127,78 @@ namespace jfYu.Core.Data
             return false;
         }
 
-        public virtual bool HardRemove(Guid guid)
+        public virtual bool HardRemove(Guid id)
         {
-            if (IsExist(guid))
+            if (IsExist(id))
             {
-                var entity = Master.Find<T>(guid);
+                var entity = Master.Find<T>(id);
                 Master.Remove(entity);
                 return Master.SaveChanges() > 0;
             }
             return false;
         }
-        public virtual bool HardRemove(string guid)
+        public virtual bool HardRemove(string id)
         {
-            if (IsExist(guid))
+            if (IsExist(id))
             {
-                var entity = Master.Find<T>(guid);
+                var entity = Master.Find<T>(id);
                 Master.Remove(entity);
                 return Master.SaveChanges() > 0;
             }
             return false;
         }
 
-        public virtual async Task<bool> HardRemoveAsync(Guid guid)
+        public virtual async Task<bool> HardRemoveAsync(Guid id)
         {
-            if (await IsExistAsync(guid))
+            if (await IsExistAsync(id))
             {
-                var entity = await Master.FindAsync<T>(guid);
+                var entity = await Master.FindAsync<T>(id);
                 Master.Remove(entity);
                 return (await Master.SaveChangesAsync()) > 0;
             }
             return false;
         }
-        public virtual async Task<bool> HardRemoveAsync(string guid)
+        public virtual async Task<bool> HardRemoveAsync(string id)
         {
-            if (await IsExistAsync(guid))
+            if (await IsExistAsync(id))
             {
-                var entity = await Master.FindAsync<T>(guid);
+                var entity = await Master.FindAsync<T>(id);
                 Master.Remove(entity);
                 return (await Master.SaveChangesAsync()) > 0;
             }
             return false;
         }
-        public virtual bool IsExist(Guid guid)
+        public virtual bool IsExist(Guid id)
         {
-            return Slave.Set<T>().Any(q => q.Guid.Equals(guid));
+            return Slave.Set<T>().Any(q => q.Id.Equals(id));
         }
-        public virtual bool IsExist(string guid)
+        public virtual bool IsExist(string id)
         {
-            return Slave.Set<T>().Any(q => q.Guid.Equals(guid));
+            return Slave.Set<T>().Any(q => q.Id.Equals(id));
         }
-        public virtual async Task<bool> IsExistAsync(Guid guid)
+        public virtual async Task<bool> IsExistAsync(Guid id)
         {
-            return await Slave.Set<T>().AnyAsync(q => q.Guid.Equals(guid));
+            return await Slave.Set<T>().AnyAsync(q => q.Id.Equals(id));
         }
-        public virtual async Task<bool> IsExistAsync(string guid)
+        public virtual async Task<bool> IsExistAsync(string id)
         {
-            return await Slave.Set<T>().AnyAsync(q => q.Guid.Equals(guid));
+            return await Slave.Set<T>().AnyAsync(q => q.Id.Equals(id));
         }
-        public virtual T GetById(Guid guid)
+        public virtual T GetById(Guid id)
         {
-            return Slave.Find<T>(guid);
+            return Slave.Find<T>(id);
         }
-        public virtual T GetById(string guid)
+        public virtual T GetById(string id)
         {
-            return Slave.Find<T>(guid);
+            return Slave.Find<T>(id);
         }
-        public virtual async Task<T> GetByIdAsync(Guid guid)
+        public virtual async Task<T> GetByIdAsync(Guid id)
         {
-            return await Slave.FindAsync<T>(guid);
+            return await Slave.FindAsync<T>(id);
         }
-        public virtual async Task<T> GetByIdAsync(string guid)
+        public virtual async Task<T> GetByIdAsync(string id)
         {
-            return await Slave.FindAsync<T>(guid);
+            return await Slave.FindAsync<T>(id);
         }
 
         public virtual T GetOne(Expression<Func<T, bool>> predicate = null)
