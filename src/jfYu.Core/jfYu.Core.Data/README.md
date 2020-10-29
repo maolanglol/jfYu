@@ -47,7 +47,7 @@ Install-Package jfYu.Core.Data
         /// <summary>
         /// 登录名
         /// </summary>
-        [DisplayName("登录名"), Required, MaxLength(100), Key]
+        [DisplayName("登录名"), Required, MaxLength(100)]
         public string UserName { get; set; }
 
         /// <summary>
@@ -119,11 +119,24 @@ Install-Package jfYu.Core.Data
     {
         public DataContext CreateDbContext(string[] args)
         {
+            var connectionString = Environment.GetEnvironmentVariable("EFCORETOOLSDB");
+            if (string.IsNullOrEmpty(connectionString))
+                throw new InvalidOperationException("The connection string was not set in the 'EFCORETOOLSDB' environment variable.");
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-            optionsBuilder.UseSqlServer("Data Source = xxx; database = xxx; User Id = sa; Password = xxxx;");
+            optionsBuilder.UseSqlServer(connectionString);
             return new DataContext(optionsBuilder.Options);
         }
     }
+```
+迁移数据,在控制台或者cmd命令行下执行
+```
+//配置迁移数据库连接字符串
+$env:EFCORETOOLSDB="Data Source = xxx; database = test; User Id = sa; Password = xxx;";
+//新建迁移
+dotnet ef migrations add init
+//应用迁移(也可在代码中进行迁移)
+dotnet ef migrations database update
+
 ```
 
 
@@ -133,13 +146,15 @@ DataContext 为自己创建的DbContext对象
 var containerBuilder = new ContainerBuilder();
 var builder = new ConfigurationBuilder().AddConfigurationFile("appsettings.json", optional: true, reloadOnChange: true);
 builder.Build();
-containerBuilder.AddDbContextService<DataContext>(q);
+containerBuilder.AddDbContextService<DataContext>();
+var container = containerBuilder.Build();
+var db=container.Resolve<IDbContextService<DataContext>>();
+db.Master.Database.Migrate(); //代码应用迁移
 
 ```
 使用
 
 ```
-  var db = container.Resolve<IDbContextService<DataContext>>();
 ////master
 if (db.Master.Database.GetPendingMigrations().Any())
     db.Master.Database.Migrate();
