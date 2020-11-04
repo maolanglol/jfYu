@@ -16,10 +16,10 @@ namespace jfYu.Core.Data
         public Guid Id { get; set; }
 
         /// <summary>
-        /// 0禁用 1正常
+        /// 状态
         /// </summary>
         [DisplayName("状态")]
-        public int State { get; set; } = 1;
+        public StateEnum State { get; set; } = StateEnum.Enabled;
 
         /// <summary>
         /// 创建时间

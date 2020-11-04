@@ -37,7 +37,7 @@ namespace xUnitTestCore.NLog
             Assert.NotNull(PLogger1._logger);
             CLogger1.GetLogger().Trace("x3");
             PLogger1._logger.Trace("x4");
-            PLogger1._logger.ALog(LogLevel.Info, "¥ÌŒÛ", "“Ï≥£");
+            PLogger1._logger.AddLog(LogLevel.Info, "¥ÌŒÛ", "“Ï≥£");
 
         }
 

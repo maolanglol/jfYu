@@ -88,7 +88,7 @@ namespace jfYu.Core.Data
             {
                 var entity = Master.Find<T>(id);
                 entity.UpdateTime = DateTime.Now;
-                entity.State = 1;
+                entity.State =  StateEnum.Disable;
                 return Master.SaveChanges() > 0;
             }
             return false;
@@ -99,7 +99,7 @@ namespace jfYu.Core.Data
             {
                 var entity = Master.Find<T>(id);
                 entity.UpdateTime = DateTime.Now;
-                entity.State = 1;
+                entity.State = StateEnum.Disable;
                 return Master.SaveChanges() > 0;
             }
             return false;
@@ -110,7 +110,7 @@ namespace jfYu.Core.Data
             {
                 var entity = await Master.FindAsync<T>(id);
                 entity.UpdateTime = DateTime.Now;
-                entity.State = 1;
+                entity.State = StateEnum.Disable;
                 return (await Master.SaveChangesAsync()) > 0;
             }
             return false;
@@ -121,7 +121,7 @@ namespace jfYu.Core.Data
             {
                 var entity = await Master.FindAsync<T>(id);
                 entity.UpdateTime = DateTime.Now;
-                entity.State = 1;
+                entity.State = StateEnum.Disable;
                 return (await Master.SaveChangesAsync()) > 0;
             }
             return false;
