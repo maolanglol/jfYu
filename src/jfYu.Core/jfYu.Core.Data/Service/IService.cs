@@ -160,14 +160,28 @@ namespace jfYu.Core.Data
         /// </summary>
         /// <param name="predicate">筛选条件</param>
         /// <returns>数据</returns>
-        T GetOne(Expression<Func<T, bool>> predicate = null);
+        T GetSingle(Expression<Func<T, bool>> predicate = null);
 
         /// <summary>
         /// 获取单个实体
         /// </summary>
         /// <param name="predicate">筛选条件</param>
         /// <returns>数据</returns>
-        Task<T> GetOneAsync(Expression<Func<T, bool>> predicate = null);
+        Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate = null);
+
+        /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="predicate">筛选条件</param>
+        /// <returns>数据</returns>
+        T GetFirst(Expression<Func<T, bool>> predicate = null);
+
+        /// <summary>
+        /// 获取单个实体
+        /// </summary>
+        /// <param name="predicate">筛选条件</param>
+        /// <returns>数据</returns>
+        Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate = null);
         #endregion
 
         #region 获取列表
@@ -233,7 +247,7 @@ namespace jfYu.Core.Data
         /// </summary>
         /// <param name="guid">guid</param>
         /// <returns>是否存在</returns>
-        Task<bool> IsExistAsync(string guid); 
+        Task<bool> IsExistAsync(string guid);
         #endregion
     }
 }

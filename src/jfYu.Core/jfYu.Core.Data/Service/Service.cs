@@ -11,7 +11,7 @@ namespace jfYu.Core.Data
         where Q : DbContext
     {
 
-        public Expression<Func<T, bool>> ExprTrue = q => true;
+        protected Expression<Func<T, bool>> exprTrue = q => true;
 
         public Q Master { get; }
 
@@ -88,7 +88,7 @@ namespace jfYu.Core.Data
             {
                 var entity = Master.Find<T>(id);
                 entity.UpdateTime = DateTime.Now;
-                entity.State =  StateEnum.Disable;
+                entity.State = StateEnum.Disable;
                 return Master.SaveChanges() > 0;
             }
             return false;
@@ -201,30 +201,41 @@ namespace jfYu.Core.Data
             return await Slave.FindAsync<T>(id);
         }
 
-        public virtual T GetOne(Expression<Func<T, bool>> predicate = null)
+        public virtual T GetSingle(Expression<Func<T, bool>> predicate = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             return Slave.Set<T>().Where(predicate).SingleOrDefault();
         }
-        public virtual async Task<T> GetOneAsync(Expression<Func<T, bool>> predicate = null)
+        public virtual async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             return await Slave.Set<T>().Where(predicate).SingleOrDefaultAsync();
+        }
+
+        public virtual T GetFirst(Expression<Func<T, bool>> predicate = null)
+        {
+            predicate ??= exprTrue;
+            return Slave.Set<T>().Where(predicate).FirstOrDefault();
+        }
+        public virtual async Task<T> GetFirstAsync(Expression<Func<T, bool>> predicate = null)
+        {
+            predicate ??= exprTrue;
+            return await Slave.Set<T>().Where(predicate).FirstOrDefaultAsync();
         }
 
         public virtual IQueryable<T> GetList(Expression<Func<T, bool>> predicate = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             return Slave.Set<T>().Where(predicate).AsQueryable();
         }
         public virtual async Task<IQueryable<T>> GetListAsync(Expression<Func<T, bool>> predicate = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             return await Task.Run(() => Slave.Set<T>().Where(predicate).AsQueryable());
         }
         public virtual IQueryable<T1> GetList<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             if (scalar == null)
                 return new List<T1>().AsQueryable();
             return Slave.Set<T>().Where(predicate).Select(scalar).AsQueryable();
@@ -232,7 +243,7 @@ namespace jfYu.Core.Data
 
         public virtual async Task<IQueryable<T1>> GetListAsync<T1>(Expression<Func<T, bool>> predicate = null, Expression<Func<T, T1>> scalar = null)
         {
-            predicate ??= ExprTrue;
+            predicate ??= exprTrue;
             if (scalar == null)
                 return new List<T1>().AsQueryable();
             return await Task.Run(() => Slave.Set<T>().Where(predicate).Select(scalar).AsQueryable());
