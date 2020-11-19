@@ -1,14 +1,14 @@
 ﻿{
   "ConnectionStrings": {
     "DatabaseType": "SqlServer", //MySql  
-    "MasterConnectionString": "Data Source = host; database = dbtest; User Id = sa; Password = Password;",
+    "MasterConnectionString": "Data Source = host1; database = dbtest; User Id = sa; Password = Password;",
     "SlaveConnectionStrings": [
       {
-        "ConnectionString": "Data Source =host; database = dbtest; User Id = sa; Password = Password;",
+        "ConnectionString": "Data Source =host2; database = dbtest; User Id = sa; Password = Password;",
         "Weight": 2
       },
       {
-        "ConnectionString": "Data Source = host; database = dbtest; User Id = sa; Password = Password;",
+        "ConnectionString": "Data Source = host3; database = dbtest; User Id = sa; Password = Password;",
         "Weight": 8
       }
     ]

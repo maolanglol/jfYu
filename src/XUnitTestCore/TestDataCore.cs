@@ -62,8 +62,12 @@ namespace xUnitTestCore.Data
             builder.Build();
             containerBuilder.AddDbContextService<DataContext>();
             var container = containerBuilder.Build();
-            var db = container.Resolve<DbContextService<DataContext>>();
-
+            var db = container.Resolve<IDbContextService<DataContext>>();
+            var x = db.Master.Database.GetDbConnection();
+            var y = db.Slave.Database.GetDbConnection();
+            var db1 = container.Resolve<IDbContextService<DataContext>>();
+            var x1 = db.Master.Database.GetDbConnection();
+            var y1 = db.Slave.Database.GetDbConnection();
             ////master
             if (db.Master.Database.GetPendingMigrations().Any())
                 db.Master.Database.Migrate();
